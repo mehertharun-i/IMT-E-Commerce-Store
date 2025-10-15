@@ -4,11 +4,18 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.E_CommerceOrderManagementProject.dao.*;
+import com.E_CommerceOrderManagementProject.dao.OrderClassRepository;
+import com.E_CommerceOrderManagementProject.dao.OrderItemsClassRepository;
+import com.E_CommerceOrderManagementProject.dao.OrderPaymentModeClassRepository;
+import com.E_CommerceOrderManagementProject.dao.OrderPaymentModeTypeClassRepository;
+import com.E_CommerceOrderManagementProject.dao.ProductRepository;
+import com.E_CommerceOrderManagementProject.dao.UserClassRepository;
 import com.E_CommerceOrderManagementProject.dto.OrderClassRequestDto;
 import com.E_CommerceOrderManagementProject.dto.OrderClassResponseDto;
 import com.E_CommerceOrderManagementProject.dto.OrderItemsCLassResponseDto;
@@ -37,20 +44,34 @@ public class OrderClassServiceImplementation implements OrderClassService{
 	private final UserClassRepository userClassRepository;
 	private final OrderPaymentModeClassRepository orderPaymentModeClassRepository;
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(OrderClassServiceImplementation.class);
+	
 	public OrderClassServiceImplementation(OrderClassRepository orderClassRepository, ProductRepository productRepository, OrderPaymentModeClassRepository orderPaymentModeClassRepository, UserClassRepository userClassRepository, OrderPaymentModeTypeClassRepository orderPaymentModeTypeClassRepository, OrderItemsClassRepository orderItemsClassRepository) {
+		LOGGER.debug("OrderClassServiceImplementation class Constructor is called");
 		this.orderClassRepository = orderClassRepository;
 		this.productRepository = productRepository;
 		this.userClassRepository = userClassRepository; 
 		this.orderPaymentModeTypeClassRepository = orderPaymentModeTypeClassRepository; 
 		this.orderItemsClassRepository = orderItemsClassRepository;
 		this.orderPaymentModeClassRepository = orderPaymentModeClassRepository;
+		LOGGER.trace("OrderClassServiceImplementation class Constructor has initialized the values");
+		LOGGER.debug("Exited from Constructor");
 	}
 
 	@Override
 	public ResponseEntity<OrderClassResponseDto> orderProduct(OrderClassRequestDto orderClassRequestDto) {
 		
-		UserClass userClassId = userClassRepository.findById(orderClassRequestDto.getUserClassId()).orElseThrow( () -> new UserClassIdNotFoundException("Invalid User Id : "+orderClassRequestDto.getUserClassId()));
-		OrderPaymentModeTypeClass paymentModeTypeId = orderPaymentModeTypeClassRepository.findById(orderClassRequestDto.getOrderPaymentModeCode()).orElseThrow( () -> new OrderPaymentModeTypeClassIdNotFoundException("Invalid Payment Mode Type Code : "+orderClassRequestDto.getOrderPaymentModeCode()));
+		LOGGER.trace("entered into the OrderProduct method : {} ", orderClassRequestDto);
+		
+		UserClass userClassId = userClassRepository.findById(orderClassRequestDto.getUserClassId()).orElseThrow( () -> {
+			LOGGER.error("Exception occurred for UserIdNotFoundException : {} ", orderClassRequestDto.getUserClassId());
+			return new UserClassIdNotFoundException("Invalid User Id : "+orderClassRequestDto.getUserClassId());
+		});
+		OrderPaymentModeTypeClass paymentModeTypeId = orderPaymentModeTypeClassRepository.findById(orderClassRequestDto.getOrderPaymentModeCode()).orElseThrow( () -> {
+			LOGGER.error("Exception occured for PaymentModeTypeIdNotFoundException : {} ", orderClassRequestDto.getOrderPaymentModeCode());
+			return new OrderPaymentModeTypeClassIdNotFoundException("Invalid Payment Mode Type Code : "+orderClassRequestDto.getOrderPaymentModeCode());
+		});
+		
 		
 		OrderClass orderClass = new OrderClass();		
 		List<OrderItemsClass> orderItemsClass = new ArrayList<OrderItemsClass>();
