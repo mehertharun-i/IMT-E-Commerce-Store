@@ -15,6 +15,7 @@ import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Data
@@ -49,9 +50,11 @@ public class AddressClass {
 	
 	@ManyToOne
 	@JoinColumn(name = "userClass_id", nullable = false)
+	@ToString.Exclude
 	private UserClass userClass;
 	
 	@OneToMany(mappedBy = "addressClass", cascade = CascadeType.ALL, orphanRemoval = true)
+	@ToString.Exclude
 	private List<OrderClass> orderClass;
 
 	public AddressClass(String userHouseNumber, String userStreetName, String userAreaName, String userLandMarkName,

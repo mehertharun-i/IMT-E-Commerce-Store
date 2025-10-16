@@ -21,7 +21,7 @@ public interface ProductService {
 	
 	public ProductResponseDto updateRating(long id, double rating);
 
-	public String deleteColumn(long id);
+	public String deleteProductById(long id);
 
 	public List<ProductResponseDto> saveAll(List<ProductRequestDto>productRequestDto);
 
@@ -30,10 +30,6 @@ public interface ProductService {
 	public List<ProductResponseDto> getProductsIsAvailable();
 
 	public List<ProductResponseDto> getRatingGreaterThan(double rating);
-
-	public List<ProductResponseDto> getProductsWithPriceRange(double min, double max, int pageNumber, int size);
-
-	public ProductResponseDto updateProductIsAvailableBaseOnStock(int stock, long id);
 
 	public List<ProductResponseDto> productRatingGreaterThanAvailableStock(double rating, boolean isAvailable);
 	

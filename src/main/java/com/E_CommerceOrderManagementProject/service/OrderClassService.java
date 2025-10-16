@@ -12,7 +12,7 @@ public interface OrderClassService {
 
 	public ResponseEntity<String> deleteSingleOrderItem(long id);
 
-	public OrderClassResponseDto getOrderItemsWithId(long id);
+	public OrderClassResponseDto getOrderItemsById(long id);
 
 
 }

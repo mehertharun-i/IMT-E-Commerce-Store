@@ -15,6 +15,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Data
@@ -48,6 +49,7 @@ public class ProductsClass {
 	private LocalDateTime productCreatedDate;
 	
 	@OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
+	@ToString.Exclude
 	private List<OrderItemsClass> orderItemsClass;
 
 	public ProductsClass(String productName, double productPrice, double productDiscount, double productRating,

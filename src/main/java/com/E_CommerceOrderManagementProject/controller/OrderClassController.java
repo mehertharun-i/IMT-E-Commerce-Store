@@ -46,9 +46,9 @@ public class OrderClassController {
 	}
 	
 	@GetMapping("/getorderdetails")
-	public OrderClassResponseDto getOrderItemsWithId(@RequestParam(name = "id") long id) {
+	public OrderClassResponseDto getOrderItemsById(@RequestParam(name = "id") long id) {
 		LOGGER.debug("Entered into getOrderItemsWithId method with API Endpoint of (/getorderitemdetails/{})", id);
-		OrderClassResponseDto orderItemsWithId = orderClassService.getOrderItemsWithId(id);
+		OrderClassResponseDto orderItemsWithId = orderClassService.getOrderItemsById(id);
 		LOGGER.debug("Exiting from getOrderItemsWithId and returning a response as : {}", orderItemsWithId);		
 		return orderItemsWithId;
 	}
