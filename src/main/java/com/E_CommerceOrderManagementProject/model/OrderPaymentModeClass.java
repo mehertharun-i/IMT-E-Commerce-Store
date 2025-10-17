@@ -15,6 +15,7 @@ import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 
 @Entity
@@ -29,6 +30,7 @@ public class OrderPaymentModeClass {
 
 	@ManyToOne
 	@JoinColumn(name = "orderPaymentModeTypeClass.id", nullable = false)
+	@ToString.Exclude
 	private OrderPaymentModeTypeClass orderPaymentModeTypeClass;
 	
 	@Column(nullable = false)
@@ -43,6 +45,7 @@ public class OrderPaymentModeClass {
 	
 	@JoinColumn(name = "orderClass_id", nullable = false)
 	@OneToOne(cascade = CascadeType.ALL)   // can orderPaymentModeClass Deleted then the Order Class should not be deleted?
+	@ToString.Exclude
 	private OrderClass orderClass;
 
 	public OrderPaymentModeClass(OrderPaymentModeTypeClass orderPaymentModeTypeClass, LocalDateTime paymentDateAndTime,

@@ -1,7 +1,6 @@
 package com.E_CommerceOrderManagementProject.model;
 
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +11,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -28,10 +28,12 @@ public class OrderItemsClass {
 	
 	@ManyToOne
 	@JoinColumn(name = "orderClass_id", nullable = false )
+	@ToString.Exclude
 	private OrderClass orderClass;
 	
 	@ManyToOne
 	@JoinColumn(name = "productsClass_id", nullable = false)
+	@ToString.Exclude
 	private ProductsClass products;
 
 	public OrderItemsClass(int quantity, OrderClass orderClass, ProductsClass products) {

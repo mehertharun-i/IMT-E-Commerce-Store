@@ -14,6 +14,7 @@ import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 
 @Entity
@@ -41,6 +42,7 @@ public class UserClass {
 	private Date userDateOfBirth;
 	
 	@OneToMany(mappedBy = "userClass", cascade = CascadeType.ALL, orphanRemoval = true)
+	@ToString.Exclude
 	private List<AddressClass> addressClass;
 	
 	@Column(nullable = false, unique = true)
@@ -50,6 +52,7 @@ public class UserClass {
 	private String userPassword;
 	
 	@OneToMany(mappedBy = "userDetails", cascade = CascadeType.ALL, orphanRemoval = true)
+	@ToString.Exclude
 	private List<OrderClass> userOrdersClass;
 
 	public UserClass(String userFirstName, String userLastName, String userEmail, String userPhoneNumber,

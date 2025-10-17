@@ -3,11 +3,9 @@ package com.E_CommerceOrderManagementProject.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,6 +16,7 @@ import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Data
@@ -37,14 +36,17 @@ public class OrderClass {
 	
 	@Column(nullable = false)
 	@OneToMany(mappedBy = "orderClass", cascade = CascadeType.ALL, orphanRemoval = true)
+	@ToString.Exclude
 	private List<OrderItemsClass> orderItemsClass;
 	
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "orderClass") //mappedBy 
 	@JoinColumn(name = "orderPaymentMode_id", nullable = false)
+	@ToString.Exclude
 	private OrderPaymentModeClass orderPaymentMode;
 	
 	@ManyToOne
 	@JoinColumn(name = "Address_id")
+	@ToString.Exclude
 	private AddressClass addressClass;
 	
 	@Column(nullable = false)
@@ -52,6 +54,7 @@ public class OrderClass {
 	
 	@ManyToOne
 	@JoinColumn(name = "userDetails_id")
+	@ToString.Exclude
 	private UserClass userDetails;
 	
 
