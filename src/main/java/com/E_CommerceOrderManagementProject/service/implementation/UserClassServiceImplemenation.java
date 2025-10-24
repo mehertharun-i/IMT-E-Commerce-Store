@@ -3,8 +3,6 @@ package com.E_CommerceOrderManagementProject.service.implementation;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +29,6 @@ public class UserClassServiceImplemenation implements UserClassService {
 	private final UserClassRepository userClassRepository;
 	private final AddressClassRepository addressClassRepository;
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserClassServiceImplemenation.class);
 	
 	public UserClassServiceImplemenation(UserClassRepository userClassRepository, AddressClassRepository addressClassRepository) {
 		this.userClassRepository = userClassRepository;
@@ -40,7 +37,6 @@ public class UserClassServiceImplemenation implements UserClassService {
 	
 	@Override
 	public ResponseEntity<UserClassResponseDto> addUserDetailsIntoDB(UserClassRequestDto userClassRequestDto) {
-		LOGGER.debug("AddUserDetailsIntoDB method called : {}",userClassRequestDto);
 		UserClass userClass = new UserClass();
 		BeanUtils.copyProperties(userClassRequestDto, userClass);
 		userClass.setAddressClass(userClassRequestDto.getAddressClass());
@@ -61,38 +57,26 @@ public class UserClassServiceImplemenation implements UserClassService {
 		}
 		
 		userClassResponseDto.setAddressClass(addressClassResponseDtoList);
-		LOGGER.debug("Returning from AddUserDetailsIntoDB : {}", userClassResponseDto);
 		return ResponseEntity.status(HttpStatus.OK).body(userClassResponseDto);
 	}
 
 	@Override
 	public ResponseEntity<Void> deleteUserAddressDetails(int id) {
-		LOGGER.debug("DeleteUserDetailsIntoDB method called : {}",id);
-		AddressClass userClass = addressClassRepository.findById(id).orElseThrow( () -> {
-			LOGGER.error("Exception occured for AddressClassIdNotFoundException : {}", id);
-			return new AddressClassIdNotFoundException("invalid Id given By Client : "+id);
-		});
+		AddressClass userClass = addressClassRepository.findById(id).orElseThrow( () -> new AddressClassIdNotFoundException("invalid Id given By Client : "+id));
 		addressClassRepository.deleteById(userClass.getUserAddressId());
-		LOGGER.debug("Returning from AddUserDetailsIntoDB : {}", userClass.getUserAddressId());
 		return ResponseEntity.noContent().build();
 	}
 
 	@Override
 	public ResponseEntity<Void> deleteUserDetails(long id) {
-		LOGGER.debug("DeleteUserDetails method called : {}",id);
-		UserClass userClass = userClassRepository.findById(id).orElseThrow( ()-> { 
-			LOGGER.error("Exception occured for DeleteUserDetails : {}", id);
-			return new UserClassIdNotFoundException("Invalid user Id given By the Client : "+id);
-		});
+		UserClass userClass = userClassRepository.findById(id).orElseThrow( ()-> new UserClassIdNotFoundException("Invalid user Id given By the Client : "+id));
 		
 		userClassRepository.deleteById(userClass.getUserId());
-		LOGGER.debug("Returning from AddUserDetailsIntoDB : {}", userClass.getUserId());
 		return ResponseEntity.noContent().build();
 	}
 
 	@Override
 	public ResponseEntity<List<UserClassResponseDto>> addAllUserDetailsIntoDB(List<UserClassRequestDto> userClassRequestDto) {
-		LOGGER.debug("AddAllUserDetailsIntoDB method called : {}",userClassRequestDto);
 		List<UserClass> userClassList = new ArrayList<UserClass>();
 		
 		for(UserClassRequestDto userDetails : userClassRequestDto) {
@@ -130,17 +114,12 @@ public class UserClassServiceImplemenation implements UserClassService {
 			userClassResponseDto.setAddressClass(addressClassResponseDtoList);
 			userClassListResponse.add(userClassResponseDto);
 		}
-		LOGGER.debug("Returning from AddAllUserDetailsIntoDB : {}", userClassListResponse);
 		return ResponseEntity.status(HttpStatus.OK).body(userClassListResponse);
 	}
 
 	@Override
 	public ResponseEntity<List<OrderClassResponseDto>> userOrderDetails(long id) {
-		LOGGER.debug("UserOrderDetails method called : {}",id);
-		UserClass userClass = userClassRepository.findById(id).orElseThrow( () -> {
-			LOGGER.error("Exception occured for UserClassIdNotFoundException : {}", id);
-			return new UserClassIdNotFoundException(" Invalid User Id : "+id);
-		});
+		UserClass userClass = userClassRepository.findById(id).orElseThrow( () -> new UserClassIdNotFoundException(" Invalid User Id : "+id));
 		
 		List<OrderClassResponseDto> userClassOrderDetailsList = new ArrayList<OrderClassResponseDto>();
 		for(OrderClass userClassOrderDetails : userClass.getUserOrdersClass()) {
@@ -167,7 +146,6 @@ public class UserClassServiceImplemenation implements UserClassService {
 			orderDetails.setOrderItems(orderItemsList);
 			userClassOrderDetailsList.add(orderDetails);
 		}
-		LOGGER.debug("Returning from UserOrderDetails : {}", userClassOrderDetailsList);
 		return ResponseEntity.status(HttpStatus.OK).body(userClassOrderDetailsList);
 	}	
 }

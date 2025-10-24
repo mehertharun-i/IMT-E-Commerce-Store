@@ -8,6 +8,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserDetails {
 	
+	/* 	This model class is for Practice of ConfigurationProperties Values
+		Its just a practice Class it not related to the OrderManagementProject
+		So, Don't Confuse with this Class.	
+	*/
+	
 	private String firstname;
 	
 	private String lastname;
