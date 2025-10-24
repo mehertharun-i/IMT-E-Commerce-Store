@@ -18,15 +18,15 @@ public class SecurityUserDetailsFromDB implements UserDetailsService{
 		this.userClassRepository = userClassRepository;
 	}
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		
-//		UserClass user = userClassRepository.findByUserLoginId(username);
-
-			
-		
-		return null;
-	}
+//	@Override
+//	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//		
+////		UserClass user = userClassRepository.findByUserLoginId(username);
+//
+//			
+//		
+//		return null;
+//	}
 
 	
 	
@@ -74,7 +74,7 @@ public class SecurityUserDetailsFromDB implements UserDetailsService{
 
 	//Database login Process using DAO Authentication Provider
 	
-/*	
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -85,7 +85,7 @@ public class SecurityUserDetailsFromDB implements UserDetailsService{
 					.password(userLoginId.getUserPassword())
 					.build();
 	}
-*/
+
 	
 	
 }
