@@ -41,11 +41,11 @@ public class E_CommerceOrderManagementAspect {
 	
 	@Around("execution(* com.E_CommerceOrderManagementProject.*.*.*(..)) " + "&& !within(com.E_CommerceOrderManagementProject.exceptions.*) " + "&& args(request, ..)")
 	public Object logsAroundAspect(ProceedingJoinPoint joinpoint, Object request) throws Throwable {
-		log.debug("1. Entered into "+joinpoint.getSignature()+" method with a Request DataType of ("+request.getClass().getSimpleName()+") : {}", request);
+		log.debug("Entered into "+joinpoint.getSignature()+" method with a Request DataType of ("+request.getClass().getSimpleName()+") : {}", request);
 		
 		Object proceed = joinpoint.proceed();
 		
-		log.debug("0. Exiting from "+joinpoint.getSignature()+" method and returning a response as : {}", proceed);
+		log.debug("Exiting from "+joinpoint.getSignature()+" method and returning a response as : {}", proceed);
 		
 		return proceed;
 	}
