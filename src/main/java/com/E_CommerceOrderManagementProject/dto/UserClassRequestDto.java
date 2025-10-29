@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import com.E_CommerceOrderManagementProject.model.AddressClass;
+import com.E_CommerceOrderManagementProject.model.Authorities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,5 +30,7 @@ public class UserClassRequestDto {
 	private String userLoginId;
 	
 	private String userPassword;
+	
+	private List<Authorities> authorities;
 	
 }

@@ -29,7 +29,7 @@ public class E_CommerceOrderManagementAspect {
 //		log.debug("Exiting from "+joinpoint.getSignature()+" method and returning a response as : {}", result);	
 //	}
 	
-	@AfterThrowing(pointcut ="execution(* com.E_CommerceOrderManagementProject.*.*.*(..))", throwing ="exceptionMessage")
+	@AfterThrowing(pointcut ="execution(* com.E_CommerceOrderManagementProject.*.*.*(..))" + "&& !within(com.E_CommerceOrderManagementProject.security.*) ", throwing ="exceptionMessage")
 	public void logsAfterThrowingAspect(JoinPoint joinpoint, RuntimeException exceptionMessage) {
 		log.error("Exception occured for "+joinpoint.getSignature()+" , Exception "+exceptionMessage.getClass()+" : {} ", exceptionMessage.getMessage());
 	}
@@ -39,7 +39,7 @@ public class E_CommerceOrderManagementAspect {
 		log.debug("Entered into "+joinpoint.getSignature()+" method with a Request DataType of ("+exceptionMessage.getClass().getSimpleName()+") : {}", exceptionMessage.getMessage());
 	}
 	
-	@Around("execution(* com.E_CommerceOrderManagementProject.*.*.*(..)) " + "&& !within(com.E_CommerceOrderManagementProject.exceptions.*) " + "&& args(request, ..)")
+	@Around("execution(* com.E_CommerceOrderManagementProject.*.*.*(..)) " + "&& !within(com.E_CommerceOrderManagementProject.exceptions.*) " + "&& !within(com.E_CommerceOrderManagementProject.security.*) " + "&& args(request, ..)")
 	public Object logsAroundAspect(ProceedingJoinPoint joinpoint, Object request) throws Throwable {
 		log.debug("Entered into "+joinpoint.getSignature()+" method with a Request DataType of ("+request.getClass().getSimpleName()+") : {}", request);
 		

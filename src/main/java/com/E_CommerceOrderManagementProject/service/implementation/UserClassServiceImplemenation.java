@@ -18,6 +18,7 @@ import com.E_CommerceOrderManagementProject.dto.UserClassResponseDto;
 import com.E_CommerceOrderManagementProject.exceptions.AddressClassIdNotFoundException;
 import com.E_CommerceOrderManagementProject.exceptions.UserClassIdNotFoundException;
 import com.E_CommerceOrderManagementProject.model.AddressClass;
+import com.E_CommerceOrderManagementProject.model.Authorities;
 import com.E_CommerceOrderManagementProject.model.OrderClass;
 import com.E_CommerceOrderManagementProject.model.OrderItemsClass;
 import com.E_CommerceOrderManagementProject.model.UserClass;
@@ -40,10 +41,17 @@ public class UserClassServiceImplemenation implements UserClassService {
 		UserClass userClass = new UserClass();
 		BeanUtils.copyProperties(userClassRequestDto, userClass);
 		userClass.setAddressClass(userClassRequestDto.getAddressClass());
+		
 		for (AddressClass address : userClass.getAddressClass()) {
             address.setUserClass(userClass);
         }
-		
+		List<Authorities> authorityList = new ArrayList<>();
+		for(Authorities authority : userClassRequestDto.getAuthorities()) {
+			Authorities auth = new Authorities();
+			auth.setAuthorityRole(authority.getAuthorityRole());
+			authorityList.add(auth);
+		}
+		userClass.setAuthorities(authorityList);
 		UserClass savedDetails = userClassRepository.save(userClass);
 		
 		UserClassResponseDto userClassResponseDto = new UserClassResponseDto();

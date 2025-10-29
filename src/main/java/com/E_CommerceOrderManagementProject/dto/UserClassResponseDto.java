@@ -3,6 +3,7 @@ package com.E_CommerceOrderManagementProject.dto;
 
 import java.util.List;
 
+import com.E_CommerceOrderManagementProject.model.Authorities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,5 +23,7 @@ public class UserClassResponseDto {
 	private String userPhoneNumber;
 	
 	private List<AddressClassResponseDto> addressClass;
+	
+	private List<Authorities> authorities;
 
 }
