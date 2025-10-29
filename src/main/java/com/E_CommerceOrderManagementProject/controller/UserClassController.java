@@ -3,7 +3,11 @@ package com.E_CommerceOrderManagementProject.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +22,7 @@ import com.E_CommerceOrderManagementProject.dto.LoginDetailsRequestDto;
 import com.E_CommerceOrderManagementProject.dto.OrderClassResponseDto;
 import com.E_CommerceOrderManagementProject.dto.UserClassRequestDto;
 import com.E_CommerceOrderManagementProject.dto.UserClassResponseDto;
+import com.E_CommerceOrderManagementProject.security.JWTService;
 import com.E_CommerceOrderManagementProject.service.UserClassService;
 
 @RestController
@@ -26,11 +31,17 @@ public class UserClassController {
 	
 	private final UserClassService userClassService;
 	
+	AuthenticationManager authenticationManager;
+	
+	JWTService jwtService;
+	
 	private final PasswordEncoder passwordEncoder;
 	
-	public UserClassController(UserClassService userClassService, PasswordEncoder passwordEncoder) {
+	public UserClassController(UserClassService userClassService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JWTService jwtService) {
 		this.userClassService = userClassService;
 		this.passwordEncoder = passwordEncoder;
+		this.authenticationManager = authenticationManager;
+		this.jwtService = jwtService;
 	}
 	
 	@PostMapping("/insertuserdetails")
@@ -43,7 +54,13 @@ public class UserClassController {
 	
 	@PostMapping("/login")
 	public ResponseEntity<String> login(@RequestBody LoginDetailsRequestDto loginDetails){
-		return ResponseEntity.ok().body("You are Successfully Logged in!");
+		try {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDetails.getUserLoginId(), loginDetails.getUserClassPassword()));
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Credentials");
+		}
+		String token = jwtService.generateToken(loginDetails.getUserLoginId());		
+		return ResponseEntity.ok().body(token);
 	}
 	
 	@PostMapping("/insertallusersdetails")
@@ -70,7 +87,6 @@ public class UserClassController {
 		ResponseEntity<List<OrderClassResponseDto>> userOrderDetails = userClassService.userOrderDetails(id);
 		return userOrderDetails;
 	}
-	
 	
 	
 }

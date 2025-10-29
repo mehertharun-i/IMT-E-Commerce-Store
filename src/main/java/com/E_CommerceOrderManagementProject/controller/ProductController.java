@@ -2,6 +2,8 @@ package com.E_CommerceOrderManagementProject.controller;
 
 import java.util.List;
 
+import javax.crypto.SecretKey;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.E_CommerceOrderManagementProject.dto.ProductRequestDto;
 import com.E_CommerceOrderManagementProject.dto.ProductResponseDto;
 import com.E_CommerceOrderManagementProject.service.ProductService;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Encoders;
 
 @RestController
 @RequestMapping("/product")
